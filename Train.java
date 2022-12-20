@@ -1,6 +1,6 @@
 public class Train {
     String kode;
-    Passanger[] penumpang = new Passanger[10];
+    Penumpang[] penumpang = new Penumpang[10];
     Route rute;
 
 }

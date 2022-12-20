@@ -43,10 +43,10 @@ public class Station {
 
             Node waitingTemp = waitingHead;
             while(waitingTemp!=null){
-                if(kereta.rute.curr.next==((Passanger)waitingTemp.obj).rute.curr.next){
-                    for(Passanger p : kereta.penumpang){
+                if(kereta.rute.curr.next==((Penumpang)waitingTemp.obj).rute.curr.next){
+                    for(Penumpang p : kereta.penumpang){
                         if(p==null){
-                            p = (Passanger) waitingTemp.obj;
+                            p = (Penumpang) waitingTemp.obj;
                             waitingTemp.prev.next = waitingTemp.next;
                             waitingTemp.next.prev = waitingTemp.prev;
                             break;
