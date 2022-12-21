@@ -1,15 +1,15 @@
-public class Queue {
-    Node head, tail;
+public class Queue<T> {
+    Node<T> head, tail;
 
-    void enQueue(Object obj) {
-        Node newNode = new Node(obj);
+    void enQueue(T obj) {
+        Node<T> newNode = new Node<T>(obj);
         tail.next = newNode;
         newNode.prev = tail;
         tail = tail.next;
     }
 
     Object deQueue(){
-        Node temp = head;
+        Node<T> temp = head;
         temp.prev.next = null;
         head = temp.next;
         temp.next = null;

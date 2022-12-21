@@ -1,4 +1,4 @@
-public class Route {
+public abstract class Route {
     class NodeRoute{
         String namaStasiun;
         int tarif;
@@ -13,4 +13,5 @@ public class Route {
     public String getName() {
         return name;
     }
+    public abstract void addStation(String stationName, int rates);
 }
