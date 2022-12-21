@@ -1,5 +1,5 @@
 public class Main{
-    static MetroSystem system = new MetroSystem();
+    static MetroResource system = new MetroResource();
     public static void main(String[] args){
         
     }
