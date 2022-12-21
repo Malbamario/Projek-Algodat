@@ -1,4 +1,4 @@
-public class MetroSystem {
+public class MetroResource {
     Node<Station> stasiunHead, stasiunTail;
     Node<Route> ruteHead, ruteTail;
     Node<Train> trainHead, trainTail;
@@ -39,7 +39,7 @@ public class MetroSystem {
     }
 
     void addTrain(String code, String routeName, String startStation){
-        Route newRoute = dupliacteRoute(routeName);
+        Route newRoute = dupliacteRoute(routeName, startStation);
         if(newRoute==null) return;
         Node<Train> newNode = new Node<Train>(new Train(code, newRoute));
         trainTail.next = newNode;
@@ -47,12 +47,30 @@ public class MetroSystem {
         trainTail = trainTail.next;
     }
 
-    Route dupliacteRoute(String routeName){
+    Route dupliacteRoute(String routeName, String startStation){
         Route foundRoute = findRoute(routeName);
         if(foundRoute==null) return null;
         Route newRoute;
-        if(foundRoute.getClass().getName().equals("CircularRoute")) newRoute = new CircularRoute();
-        else newRoute = new BackNForthRoute();
+        if(foundRoute.getClass().getName().equals("CircularRoute")){
+            newRoute = new CircularRoute();
+            String headStation = newRoute.head.namaStasiun;
+            while(newRoute.head.namaStasiun!=startStation){
+                newRoute.head = newRoute.head.next;
+                newRoute.tail = newRoute.tail.next;
+                if(newRoute.head.namaStasiun.equals(headStation)){
+                    System.out.println("Stasiun tidak ditemukan");
+                    return null;
+                }
+            }
+            newRoute.curr = newRoute.head;
+        }
+        else{
+            newRoute = new BackNForthRoute();
+            do{
+                if(newRoute.curr.namaStasiun.equals(startStation)) break;
+                
+            }while(newRoute.curr.next!=null);
+        }
         newRoute.head = foundRoute.head;
         newRoute.tail = foundRoute.tail;
         return newRoute;
