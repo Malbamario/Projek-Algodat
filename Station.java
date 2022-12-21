@@ -1,7 +1,7 @@
 public class Station {
     protected String name;
     Train[] kereta;
-    Node waitingHead, waitingTail;
+    Node<Penumpang> waitingHead, waitingTail;
 
     public Station(String nama, int qty){
         this.kereta = new Train[qty];
@@ -33,7 +33,7 @@ public class Station {
             for(int i=0;i<kereta.penumpang.length;i++){
                 if(kereta.penumpang[i].rute.curr.next==null) kereta.penumpang[i] = null;
                 else if(kereta.penumpang[i].rute.curr.next!=kereta.rute.curr.next){
-                    Node newNode = new Node(kereta.penumpang[i]);
+                    Node<Penumpang> newNode = new Node<Penumpang>(kereta.penumpang[i]);
                     waitingTail.next = newNode;
                     newNode.prev = waitingTail;
                     waitingTail = waitingTail.next;
@@ -41,9 +41,9 @@ public class Station {
                 }
             }
 
-            Node waitingTemp = waitingHead;
+            Node<Penumpang> waitingTemp = waitingHead;
             while(waitingTemp!=null){
-                if(kereta.rute.curr.next==((Penumpang)waitingTemp.obj).rute.curr.next){
+                if(kereta.rute.curr.next==waitingTemp.obj.rute.curr.next){
                     for(Penumpang p : kereta.penumpang){
                         if(p==null){
                             p = (Penumpang) waitingTemp.obj;
