@@ -1,9 +1,9 @@
 public class Station {
     protected String name;
     Train[] kereta;
-    Node<Penumpang> waitingHead, waitingTail;
+    DoubleList<Penumpang> waiting;
 
-    public Station(String nama, int qty){
+    public Station(String nama, Integer qty){
         this.kereta = new Train[qty];
         this.name = nama;
     }
@@ -22,7 +22,7 @@ public class Station {
 
     public Train getTrainByNextDest(String destination){
         for(Train kereta : kereta){
-            if(kereta.rute.curr.next.namaStasiun==destination) return kereta;
+            if(kereta.rute.temp.next.namaStasiun==destination) return kereta;
         }
         System.out.println("Kereta tidak ditemukan");
         return null;
@@ -30,20 +30,20 @@ public class Station {
 
     void swapPassanger(){
         for(Train kereta: kereta){
-            for(int i=0;i<kereta.penumpang.length;i++){
-                if(kereta.penumpang[i].rute.curr.next==null) kereta.penumpang[i] = null;
-                else if(kereta.penumpang[i].rute.curr.next!=kereta.rute.curr.next){
+            for(Integer i=0;i<kereta.penumpang.length;i++){
+                if(kereta.penumpang[i].rute.temp.next==null) kereta.penumpang[i] = null;
+                else if(kereta.penumpang[i].rute.temp.next!=kereta.rute.temp.next){
                     Node<Penumpang> newNode = new Node<Penumpang>(kereta.penumpang[i]);
-                    waitingTail.next = newNode;
-                    newNode.prev = waitingTail;
-                    waitingTail = waitingTail.next;
+                    waiting.tail.next = newNode;
+                    newNode.prev = waiting.tail;
+                    waiting.tail = waiting.tail.next;
                     kereta.penumpang[i] = null;
                 }
             }
 
-            Node<Penumpang> waitingTemp = waitingHead;
+            Node<Penumpang> waitingTemp = waiting.head;
             while(waitingTemp!=null){
-                if(kereta.rute.curr.next==waitingTemp.obj.rute.curr.next){
+                if(kereta.rute.temp.next==waitingTemp.obj.rute.temp.next){
                     for(Penumpang p : kereta.penumpang){
                         if(p==null){
                             p = (Penumpang) waitingTemp.obj;
