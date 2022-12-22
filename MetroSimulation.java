@@ -33,7 +33,7 @@ public class MetroSimulation {
                 tempTrain.obj.rute.move();
                 tempTrain = tempTrain.next;
             }
-            System.out.println(" ]");
+            System.out.println("]");
         }
     }
 }
