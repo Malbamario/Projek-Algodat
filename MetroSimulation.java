@@ -29,7 +29,7 @@ public class MetroSimulation {
             System.out.print("[ ");
             for(NodeRoute kereta : jam){
                 kereta = tempTrain.obj.rute.temp;
-                System.out.print(kereta.namaStasiun+" ");
+                System.out.print(kereta.tarif+" ");
                 tempTrain.obj.rute.move();
                 tempTrain = tempTrain.next;
             }

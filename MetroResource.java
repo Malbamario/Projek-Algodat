@@ -19,15 +19,23 @@ public class MetroResource {
         if(circularOrBNF) newRoute = new CircularRoute();
         else newRoute = new BackNForthRoute();
         newRoute.name = routeName;
+        Integer rate = 0;
         for(Integer i=0;i<stationName.length;i++){
             if(validateStation(stationName[i])){
-                Integer rate = 0;
                 if(newRoute.tail!=null){
                     rate = findRate(newRoute.tail.namaStasiun, stationName[i]);
                 }
                 newRoute.addStation(stationName[i], rate);
             }else return;
         }
+        if(circularOrBNF) {
+            rate = findRate(newRoute.tail.namaStasiun, newRoute.head.namaStasiun);
+            newRoute.head.tarif = rate;
+        }
+        else {
+            newRoute.head.tarif = newRoute.head.next.tarif;
+        }
+        
         Node<Route> newNode = new Node<Route>(newRoute);
         if(rute.head==null) rute.head = rute.curr = rute.tail = newNode;
         else{
