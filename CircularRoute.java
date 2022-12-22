@@ -8,4 +8,7 @@ public class CircularRoute extends Route {
             tail.next = head;
         }
     }
+    public void move(){
+        temp = temp.next;
+    }
 }
