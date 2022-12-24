@@ -1,4 +1,5 @@
 public class DoubleList<T>{
+    //asscdcddc
     Node<T> head, curr, tail;
     void addTail(T obj){
         Node<T> newNode = new Node<T>(obj);
