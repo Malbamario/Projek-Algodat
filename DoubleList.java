@@ -1,22 +1,25 @@
 public class DoubleList<T>{
-    //script ini adalah class yang bernama DoubleList yang dimana class ini berfungsi sebagai node dari double linked list, class ini merupakan
-    //jenis
+    //script ini adalah class DoubleList yang dimana class ini bertipe data 
+    //generic dengan nilai index T.
     Node<T> head, curr, tail;
-    //script ini adalah variabel yang bertipe data Node yang memiliki nilai index T
+    //script ini adalah variabel head, curr dan tail yang bertipe data Node dengan  nilai index T
+    //sebagai tipe data genericnya
     void addTail(T obj){
-        //script ini adalah method yang memiliki parameter variabel obj dengan tipe data index T, method ini berfungsi untuk menambahkan data
+        //script ini adalah method yang berfungsi untuk menginputkan data pada bagian akhir dari data, method ini memiliki parameter v
+        //variabel obj dengan tipe data generic index T
         Node<T> newNode = new Node<T>(obj);
-        //script ini adalah mendeklarasikan variabel newNode yang bertipe data Node dengan index T yang dimana node newNode ini adalah node baru yang berisi data
+        //script ini adalah variabel newNode dengan tipe data generic Node yang di inisialisasikan sebagai node baru yang
+        //berisi nilai dari variabel obj
         if(head==null) head = curr = tail = newNode;
-        //script ini adalah statement jika data awal atau head adalah kosong, maka data awal atau head, node curr dan node tail adalah data baru newnode
+        //script ini adalah statement jika data awal kosong, maka head, curr dan tail adalah data baru node newNode
         else{
-            //script ini adalah statement jika if tidak terpenuhi
+            //script ini adalah statement selain dari statment if
             tail.next = newNode;
-            //script ini adalah menginisialisasi node tail selanjutnya adalah node newNode
+            //script ini adalah menginisialisasikan node tail selanjutnya adalah node newNode
             newNode.prev = tail;
-            //script ini adalah menginisialisasi node newNode sebelumnya adalah node tail
+            //script ini adalah mebginisialisasikan newNode sebelumnya adalah node tail
             tail = tail.next;
-            //script ini adalah menginisialisasi node tail adalah node tail selanjutnya
+            //script ini menginisialisasikan node tail adalah tail selanjutnya
         }
     }
 
