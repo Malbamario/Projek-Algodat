@@ -1,9 +1,13 @@
+import java.util.*;
+
 public class Main{
     static MetroResource resource = new MetroResource();
     static MetroSimulation simulation = new MetroSimulation(resource);
+    static SistemTicket ticketing = new SistemTicket(resource,simulation,6,23);
     public static void main(String[] args){
         scenario();
         simulation.preperation(6, 23);
+        menu();
     }
 
     public static void scenario(){
@@ -72,6 +76,34 @@ public class Main{
             trainRoute.curr = trainRoute.curr.next;
             trainStart.curr = trainStart.curr.next;
         }
-        resource.printTrain();
+    }
+
+    public static void menu(){
+        boolean finish=false;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Menu");
+        System.out.println("1. Beli Tiket");
+        System.out.println("2. Simulasi");
+        System.out.println("3. Keluar");
+        System.out.print("Pilih Menu: ");
+        int input=sc.nextInt();
+
+        switch (input) {
+        case 1:
+            ticketing.beliTiket();
+            break;
+        case 2:
+            simulation.start();
+            break;
+        case 3:
+            finish=true;
+            break;
+        default:
+            System.out.println("Masukkan input yang benar!");
+            menu();
+        }
+        if(!finish){
+            menu();
+        }
     }
 }

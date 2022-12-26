@@ -3,6 +3,7 @@ public class MetroResource {
     DoubleList<Route> rute = new DoubleList<Route>();
     DoubleList<Train> train = new DoubleList<Train>();
     DoubleList<DoubleList<Integer>> rates = new DoubleList<DoubleList<Integer>>();
+    DoubleList<Penumpang> penumpang = new DoubleList<Penumpang>();
 
     void addStation(String nama, Integer qty){
         Node<Station> newStation = new Node<Station>(new Station(nama, qty));
