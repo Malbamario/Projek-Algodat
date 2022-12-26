@@ -37,18 +37,6 @@ public class MetroSimulation {
             }
             // System.out.println("]");
         }
-
-        // for(NodeRoute[] jam : schedule){
-        //     tempTrain = resource.train.head;
-        //     System.out.print("[ ");
-        //     for(NodeRoute kereta : jam){
-        //         // kereta = tempTrain.obj.rute.temp;
-        //         System.out.print(kereta.namaStasiun+" ");
-        //         tempTrain.obj.rute.move();
-        //         tempTrain = tempTrain.next;
-        //     }
-        //     System.out.println("]");
-        // }
     }
 
     void start(){
