@@ -26,4 +26,31 @@ public class DoubleList<T>{
     void addTail(T[] objects){
         for(T obj : objects) addTail(obj);
     }
+
+    T delete(T obj){
+        Node<T>temp=head;
+        while(temp!=null){
+            if(temp.obj==obj){
+                if(temp==head){
+                    if(temp.next!=null)temp.next.prev=null;
+                    head=head.next;
+                    temp.next=null;
+                    return temp.obj;
+                }else if(temp==tail){
+                    temp.prev.next=null;
+                    tail=tail.prev;
+                    temp.prev=null;
+                    return temp.obj;
+                }else{
+                    temp.prev.next=temp.next;
+                    temp.next.prev=temp.prev;
+                    temp.next=temp.prev=null;
+                    return temp.obj;
+                }
+            }temp=temp.next;
+        }
+        System.out.println("Node tidak ditemukan!");
+        return null;
+
+    }
 }

@@ -62,6 +62,7 @@ public class SistemTicket {
             }
         }
         Integer nomor=0;
+        // sorting by tarif
         while(daftarTicket.curr!=null){
             nomor++;
             System.out.println(nomor+") "+daftarTicket.curr.obj.jam+".00");
@@ -85,7 +86,7 @@ public class SistemTicket {
             daftarTicket.curr=daftarTicket.head;
             while(daftarTicket.curr!=null){
                 if(namaRute.equals(daftarTicket.curr.obj.rute.name)){
-                    mr.penumpang.addTail(new Penumpang(namaPenumpang, asal, tujuan, daftarTicket.curr.obj.rute));
+                    mr.penumpang.addTail(new Penumpang(namaPenumpang, asal, tujuan, daftarTicket.curr.obj));
                     System.out.println("Penumpang berhasil ditambah!");
                 }
                 daftarTicket.curr=daftarTicket.curr.next;

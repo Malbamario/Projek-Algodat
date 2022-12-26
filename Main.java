@@ -93,7 +93,7 @@ public class Main{
             ticketing.beliTiket();
             break;
         case 2:
-            simulation.preperation(6, 23);
+            simulation.start();
             break;
         case 3:
             finish=true;
