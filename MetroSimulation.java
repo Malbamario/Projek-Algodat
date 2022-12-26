@@ -24,16 +24,16 @@ public class MetroSimulation {
             tempTrain = tempTrain.next;
         }
         schedule = new NodeRoute[closeTime-openTime][trainCount];
-        for(NodeRoute[] jam : schedule){
+        for(int i=0;i<schedule.length;i++){
             tempTrain = resource.train.head;
-            System.out.print("[ ");
-            for(NodeRoute kereta : jam){
-                kereta = tempTrain.obj.rute.temp;
-                System.out.print(kereta.tarif+" ");
+            // System.out.print("[ ");
+            for(int j=0;j<schedule[i].length;j++){
+                schedule[i][j] = tempTrain.obj.rute.temp;
+                // System.out.print(schedule[i][j].namaStasiun+" ");
                 tempTrain.obj.rute.move();
                 tempTrain = tempTrain.next;
             }
-            System.out.println("]");
+            // System.out.println("]");
         }
     }
 }
