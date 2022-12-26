@@ -1,10 +1,10 @@
 public class Penumpang {
-   Route rute;
+   Ticket tiket;
    String name, tujuan, asal;
-   Penumpang(String name, String asal, String tujuan, Route rute) {
+   Penumpang(String name, String asal, String tujuan, Ticket tiket) {
       this.name = name;
       this.tujuan = tujuan;
       this.asal = asal;
-      this.rute=rute;
+      this.tiket=tiket;
    }
 }
