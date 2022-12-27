@@ -49,7 +49,7 @@ public class DoubleList<T>{
                 }
             }temp=temp.next;
         }
-        System.out.println("Node tidak ditemukan!");
+        // System.out.println("Node tidak ditemukan!");
         return null;
 
     }
