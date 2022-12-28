@@ -31,24 +31,24 @@ public class MetroSimulation {
         schedule = new NodeRoute[closeTime-openTime][trainCount];
         for(int i=0;i<schedule.length;i++){
             tempTrain = resource.train.head;
-            System.out.print("[ ");
+            // System.out.print("[ ");
             for(int j=0;j<schedule[i].length;j++){
                 schedule[i][j] = tempTrain.obj.rute.temp;
-                System.out.print(schedule[i][j].namaStasiun+" ");
-                // tempTrain.obj.rute.move();
-                tempTrain = tempTrain.next;
-            }
-            System.out.print("]");
-            tempTrain = resource.train.head;
-            System.out.print("[ ");
-            
-            for(int j=0;j<schedule[i].length;j++){
-                schedule[i][j] = tempTrain.obj.rute.temp;
-                System.out.print(schedule[i][j].tarif+" ");
+                // System.out.print(schedule[i][j].namaStasiun+" ");
                 tempTrain.obj.rute.move();
                 tempTrain = tempTrain.next;
             }
-            System.out.println("]");
+            // System.out.print("]");
+            // tempTrain = resource.train.head;
+            // System.out.print("[ ");
+            
+            // for(int j=0;j<schedule[i].length;j++){
+            //     schedule[i][j] = tempTrain.obj.rute.temp;
+            //     System.out.print(schedule[i][j].tarif+" ");
+            //     tempTrain.obj.rute.move();
+            //     tempTrain = tempTrain.next;
+            // }
+            // System.out.println("]");
         }
     }
 

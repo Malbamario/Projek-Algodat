@@ -74,15 +74,20 @@ public class Main{
         }
 
         while(trainCode.curr!=null){
+            // System.out.println(trainCode.curr.obj+" => "+routesNameArr[trainRoute.curr.obj]+" => "+stationArr[trainStart.curr.obj]);
             resource.addTrain(
                 trainCode.curr.obj, 
                 routesNameArr[trainRoute.curr.obj],
                 stationArr[trainStart.curr.obj]
             );
+            // resource.printTrain();
             trainCode.curr = trainCode.curr.next;
             trainRoute.curr = trainRoute.curr.next;
             trainStart.curr = trainStart.curr.next;
         }
+
+        // resource.printStation();
+        // resource.printRoute();
     }
 
     public static void menu(){
