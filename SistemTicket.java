@@ -63,13 +63,15 @@ public class SistemTicket {
                 }
                 while(foundTrain.curr!=null){
                     Integer tarif=0;
-                    foundTrain.curr.obj.rute.temp=foundTrain.curr.obj.rute.head;
+                    foundTrain.curr.obj.curr=foundTrain.curr.obj.start;
                     do{
-                        tarif+=foundTrain.curr.obj.rute.temp.tarif;
-                        foundTrain.curr.obj.rute.move();
+                        tarif+=foundTrain.curr.obj.curr.tarif;
+                        foundTrain.curr.obj.curr = foundTrain.curr.obj.rute.move(foundTrain.curr.obj);
+                        // System.out.println(foundTrain.curr.obj.curr.namaStasiun);
                     }
-                    while(foundTrain.curr.obj.rute.temp!=foundTrain.curr.obj.rute.head);
-                    daftarTicket.addTail(new Ticket(now, tarif, foundTrain.curr.obj.rute, asal, tujuan));
+                    while(!foundTrain.curr.obj.curr.namaStasiun.toLowerCase().equals(tujuan.toLowerCase()));
+                    daftarTicket.addTail(new Ticket(now, tarif, foundTrain.curr.obj.rute, mr.findStation(asal).name, mr.findStation(tujuan).name));
+                    foundTrain.curr.obj.curr=foundTrain.curr.obj.start;
                     foundTrain.curr=foundTrain.curr.next;
                 }
                 break;

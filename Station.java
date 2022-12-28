@@ -99,10 +99,10 @@ public class Station {
         for(int i=0;i<this.kereta.length;i++){
             if(this.kereta[i]==null){
                 this.kereta[i]=kereta;
-                // System.out.println("Kereta "+kereta.kode+" berhasil ditambah!");
+                // System.out.println("Kereta "+kereta.kode+": "+kereta.start.namaStasiun+" : berhasil ditambah di stasiun!"+this.name);
                 return;
             }
         }
-        System.out.println("Peron stasiun penuh!");
+        // System.out.println("Kereta "+kereta.kode+": "+kereta.start.namaStasiun+" : Peron stasiun "+name+" penuh!");
     }
 }
