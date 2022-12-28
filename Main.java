@@ -4,6 +4,7 @@ public class Main{
     static MetroResource resource = new MetroResource();
     static MetroSimulation simulation = new MetroSimulation(resource);
     static SistemTicket ticketing = new SistemTicket(resource,simulation,6,22);
+    static Scanner input = new Scanner(System.in);
     public static void main(String[] args){
         scenario();
         simulation.preperation(6, 23);
@@ -80,15 +81,16 @@ public class Main{
 
     public static void menu(){
         boolean finish=false;
-        Scanner sc = new Scanner(System.in);
         System.out.println("Menu");
         System.out.println("1. Beli Tiket");
         System.out.println("2. Simulasi");
         System.out.println("3. Keluar");
         System.out.print("Pilih Menu: ");
-        int input=sc.nextInt();
-
-        switch (input) {
+        Integer pilihan=Integer.parseInt(input.nextLine());
+        System.out.println();
+        Main.clearScreen();
+        
+        switch (pilihan) {
         case 1:
             ticketing.beliTiket();
             break;
@@ -105,5 +107,10 @@ public class Main{
         if(!finish){
             menu();
         }
+    }
+
+    static void clearScreen(){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }

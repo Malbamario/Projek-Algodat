@@ -58,13 +58,17 @@ public class Station {
     /* script ini adalah method swap penumpang yang dimana jika penumpang telah memenuhi tujuannya maka penumpang yang ada pada kereta
      * akan berkurang dan dilakukan pengecekan pada stasiun yang dikunjungi apakah tujuan dari penumpang yang ada pada stasiun itu sesuai denagn tujuan kereta maka kereta akan menambah jumlah penumpang yang ada pada stasiun yang dikunjungi
     */
-    void swapPassanger(){
+    void swapPassanger(Integer jam){
         for(Train k: kereta){
             if(k!=null){
                 for(Integer i=0;i<k.penumpang.length;i++){
                     Penumpang thisPenumpang = k.penumpang[i];
                     if(thisPenumpang!=null){
-                        if(k.curr.namaStasiun.equals(thisPenumpang.tujuan)) k.penumpang[i] = null;
+                        if(k.curr.namaStasiun.equals(thisPenumpang.tujuan)){
+                            MetroSimulation.printVerticalLine(jam);
+                            System.out.println("    "+k.penumpang[i].name+" telah sampai tujuan");
+                            k.penumpang[i] = null;
+                        }
                         // else if(thisPenumpang.rute.temp.next!=k.rute.temp.next){
                         //     waiting.addTail(thisPenumpang);
                         //     k.penumpang[i] = null;
@@ -75,14 +79,17 @@ public class Station {
                 Node<Penumpang> waitingTemp = waiting.head;
                 while(waitingTemp!=null){
                     if(k.rute.name.equals(waitingTemp.obj.tiket.rute.name)){
-                        for(int i=0;i<k.penumpang.length;i++){
+                        Integer i = 0;
+                        for(;i<k.penumpang.length;i++){
                             if(k.penumpang[i]==null){
-                                k.penumpang[i] = waiting.delete(waitingTemp.obj);
+                                Penumpang tempPenumpang = waitingTemp.obj;
+                                waitingTemp = waitingTemp.next;
+                                k.penumpang[i] = waiting.delete(tempPenumpang);
+                                break;
                             }
                         }
- 
-                    }
-                    waitingTemp = waitingTemp.next;
+                        if(i==k.penumpang.length) waitingTemp = waitingTemp.next;
+                    } else waitingTemp = waitingTemp.next;
                 }
             }
         }
