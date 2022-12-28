@@ -1,5 +1,4 @@
 public class BackNForthRoute extends Route {
-    Boolean isReversed = false;
     public void addStation(String stationName, Integer rates){
         NodeRoute newNode = new NodeRoute(stationName, rates);
         if(head==null) this.head = this.tail = this.temp = newNode;
@@ -9,10 +8,11 @@ public class BackNForthRoute extends Route {
             tail = tail.next;
         }
     }
-    public void move(){
-        if(temp==tail) isReversed = true;
-        else if(temp==head) isReversed = false;
-        if(!isReversed) temp = temp.next;
-        else temp = temp.prev;
+
+    public NodeRoute move(Train t){
+        if(t.curr==tail) t.isReversed = true;
+        else if(t.curr==head) t.isReversed = false;
+        if(!t.isReversed) return t.curr.next;
+        else return t.curr.prev;
     }
 }

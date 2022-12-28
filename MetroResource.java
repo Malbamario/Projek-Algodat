@@ -36,14 +36,7 @@ public class MetroResource {
         else {
             newRoute.head.tarif = newRoute.head.next.tarif;
         }
-        
-        Node<Route> newNode = new Node<Route>(newRoute);
-        if(rute.head==null) rute.head = rute.curr = rute.tail = newNode;
-        else{
-            rute.tail.next = newNode;
-            newNode.prev = rute.tail;
-            rute.tail = rute.tail.next;
-        }
+        rute.addTail(newRoute);
     }
 
     Integer findRate(String departure, String destination){
@@ -68,35 +61,29 @@ public class MetroResource {
     void addTrain(String code, String routeName, String startStation){
         Route foundRoute = findRoute(routeName);
         if(foundRoute==null||!validateStation(startStation)) return;
-        Node<Train> newNode = new Node<Train>(new Train(code, foundRoute));
-        Boolean isInRoute = setStartStation(newNode.obj, foundRoute, startStation);
+        Train newTrain = new Train(code, foundRoute);
+        Boolean isInRoute = setStartStation(newTrain, foundRoute, startStation);
         if(!isInRoute) return;
-        if(train.head==null) train.head = train.curr = train.tail = newNode;
-        else{
-            train.tail.next = newNode;
-            newNode.prev = train.tail;
-            train.tail = train.tail.next;
-        }
+        train.addTail(newTrain);
     }
 
     Boolean setStartStation(Train kereta, Route route, String startStation){
         route.temp = route.head;
         if(route.getClass().getName().equals("CircularRoute")){
-            String headStation = route.head.namaStasiun;
             while(!route.temp.namaStasiun.equals(startStation)){
-                if(route.head.namaStasiun.equals(headStation)){
+                route.temp = route.temp.next;
+                if(route.temp.namaStasiun.equals(route.head.namaStasiun)){
                     System.out.println("Stasiun tidak ditemukan");
                     return false;
                 }
-                route.temp = route.temp.next;
             }
-            kereta.curr = route.temp;
+            kereta.start = kereta.curr=route.temp;
             return true;
         }
         else{
             while(route.temp!=null){
                 if(route.temp.namaStasiun.equals(startStation)){
-                    kereta.curr = route.temp;
+                    kereta.start = kereta.curr=route.temp;
                     return true;
                 }
                 route.temp = route.temp.next;
@@ -128,8 +115,7 @@ public class MetroResource {
         Node<Station> temp = stasiun.head;
         while(temp != null){
             String tempName = temp.obj.getName().toLowerCase();
-            sName = sName.toLowerCase();
-            if(tempName.equals(sName)) return temp.obj;
+            if(tempName.equals(sName.toLowerCase())) return temp.obj;
             temp = temp.next;
         }
         System.out.println("Stasiun tidak ditemukan");
@@ -152,6 +138,7 @@ public class MetroResource {
         rute.curr = rute.head;
         while(rute.curr!=null){
             System.out.println(rute.curr.obj.name+" => ");
+            rute.curr.obj.temp = rute.curr.obj.head;
             rute.curr = rute.curr.next;
         }
     }
@@ -160,7 +147,7 @@ public class MetroResource {
         System.out.println("Kereta: ");
         train.curr = train.head;
         while(train.curr!=null){
-            System.out.println(train.curr.obj.kode+" => ");
+            System.out.println(train.curr.obj.kode+" => "+train.curr.obj.rute.name+" => "+train.curr.obj.curr.namaStasiun);
             train.curr = train.curr.next;
         }
     }

@@ -3,16 +3,16 @@ import java.util.*;
 public class Main{
     static MetroResource resource = new MetroResource();
     static MetroSimulation simulation = new MetroSimulation(resource);
-    static SistemTicket ticketing = new SistemTicket(resource,simulation,6,22);
+    static SistemTicket ticketing = new SistemTicket(resource,simulation,6,23);
     static Scanner input = new Scanner(System.in);
     public static void main(String[] args){
         scenario();
-        simulation.preperation(6, 23);
+        simulation.preperation(ticketing.openTime, ticketing.closeTime);
         menu();
     }
 
     public static void scenario(){
-        String[] stationArr = {"A", "B", "C", "D", "E"};
+        String[] stationArr = {"Barcelona", "Manchester United", "Arsenal", "Bayern Munchen", "Real Madrid"};
         DoubleList<String> station = new DoubleList<String>();
         station.addTail(stationArr);
         
@@ -21,11 +21,11 @@ public class Main{
         qty.addTail(qtyArr);
 
         Integer[][] ratesArr = {
-            {0, 7, 5, 5, 0},
-            {7, 0, 0, 4, 6},
-            {5, 0, 0, 6, 6},
-            {5, 4, 6, 0, 5},
-            {0, 6, 6, 5, 0}
+            { 0, 10,  8,  9,  0},
+            {10,  0,  0,  7, 10},
+            { 8,  0,  0, 15, 12},
+            { 9,  7, 15,  0, 13},
+            { 0, 10, 12, 13,  0}
         };
 
         String[] routesNameArr = {"Palapa-Red Line", "Palapa-White Line", "Sabang-Merauke Line", "Mangias-Rote Line"};
@@ -40,15 +40,25 @@ public class Main{
             {stationArr[1], stationArr[3], stationArr[2]},
         };
 
-        String[] trainCodeArr = {"PR-01", "PW-03", "SM-00", "MR-41"};
+        String[] trainCodeArr = {"PR-301","PR-302","PR-303","PR-304","PW-401","PW-402","PW-403","PW-404","SM-701","SM-702","SM-703","SM-704","MR-901","MR-902","MR-903","MR-904"};
         DoubleList<String> trainCode = new DoubleList<String>();
         trainCode.addTail(trainCodeArr);
-        Integer[] trainRouteArr = {0, 1, 2, 3};
+        Integer[] trainRouteArr = {0,0,0,0,
+                                   1,1,1,1,
+                                   2,2,2,2,
+                                   3,3,3,3};
         DoubleList<Integer> trainRoute = new DoubleList<Integer>();
         trainRoute.addTail(trainRouteArr);
-        Integer[] trainStartArr = {0, 2, 0, 3};
+        Integer[] trainStartArr = {0,1,4,2,
+                                   2,4,1,0,
+                                   0,3,3,4,
+                                   1,3,3,2};
         DoubleList<Integer> trainStart = new DoubleList<Integer>();
         trainStart.addTail(trainStartArr);
+
+        Boolean[] bNFReverseArr = {false, true, false, true};
+        DoubleList<Boolean> bNFReverse = new DoubleList<Boolean>();
+        bNFReverse.addTail(bNFReverseArr);
         
         while(station.curr!=null){
             resource.addStation(station.curr.obj, qty.curr.obj);
@@ -66,17 +76,44 @@ public class Main{
             resource.addRoute(routesName.curr.obj, routeStationArr[i], isCircular[i]);
             routesName.curr = routesName.curr.next;
         }
+        resource.printRoute();
 
         while(trainCode.curr!=null){
+            // System.out.println(trainCode.curr.obj+" => "+routesNameArr[trainRoute.curr.obj]+" => "+stationArr[trainStart.curr.obj]);
             resource.addTrain(
                 trainCode.curr.obj, 
                 routesNameArr[trainRoute.curr.obj],
                 stationArr[trainStart.curr.obj]
             );
+            // resource.printTrain();
             trainCode.curr = trainCode.curr.next;
             trainRoute.curr = trainRoute.curr.next;
             trainStart.curr = trainStart.curr.next;
         }
+
+        resource.train.curr = resource.train.head;
+        while(resource.train.curr!=null){
+            if(resource.train.curr.obj.rute.name.equals("Sabang-Merauke Line")||resource.train.curr.obj.rute.name.equals("Mangias-Rote Line")){
+                resource.train.curr.obj.isReversed = bNFReverse.curr.obj;
+                bNFReverse.curr = bNFReverse.curr.next;
+                if(bNFReverse.curr==null) bNFReverse.curr = bNFReverse.head;
+            }
+            // resource.printTrain();
+            resource.train.curr = resource.train.curr.next;
+        }
+        // System.out.println("Kereta: ");
+        // resource.train.curr = resource.train.head;
+        // while(resource.train.curr!=null){
+        //     if(resource.train.curr.obj.rute.name.equals("Sabang-Merauke Line")||resource.train.curr.obj.rute.name.equals("Mangias-Rote Line")){
+        //         System.out.println(resource.train.curr.obj.kode+" : "+((BackNForthRoute)resource.train.curr.obj.rute).isReversed);
+        //     }
+        //     // System.out.println(resource.train.curr.obj.kode+" => "+resource.train.curr.obj.rute.name+" => "+resource.train.curr.obj.curr.namaStasiun);
+        //     resource.train.curr = resource.train.curr.next;
+        // }
+
+
+        // resource.printStation();
+        // resource.printRoute();
     }
 
     public static void menu(){
