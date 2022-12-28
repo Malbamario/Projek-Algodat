@@ -4,6 +4,8 @@ public class SistemTicket {
     MetroResource mr;
     MetroSimulation ms;
     int openTime,closeTime;
+    DoubleList<Ticket> daftarTicket=new DoubleList<Ticket>();
+    Scanner input = new Scanner(System.in);
     
     public SistemTicket(MetroResource mr, MetroSimulation ms, int open, int close){
         this.mr=mr;
@@ -13,36 +15,53 @@ public class SistemTicket {
     }
 
     public void beliTiket(){
-        Scanner sd = new Scanner(System.in);
-        Scanner sx = new Scanner(System.in);
+        System.out.println("Jam Operasional: "+MetroSimulation.printTime(openTime)+" - "+MetroSimulation.printTime(closeTime-1));
+        mr.printStation();
         System.out.print("Masukkan nama: ");
-        String namaPenumpang=sd.nextLine();
-        System.out.print("Masukkan stasiun asal: ");
-        String asal=sx.nextLine();
-        System.out.print("Masukkan stasiun tujuan: ");
-        String tujuan=sx.nextLine();
-        System.out.print("Masukkan jam keberangkatan: ");
-        Integer jam=Integer.parseInt(sx.nextLine());
-
-        System.out.println("Daftar Tiket:");
-        DoubleList<Ticket> daftarTicket=new DoubleList<Ticket>();
+        String namaPenumpang=input.nextLine();
+        boolean isCorrect = false;
+        String asal="", tujuan="";
+        Integer jam=0;
+        while(!isCorrect){
+            System.out.print("Masukkan stasiun asal: ");
+            asal=input.nextLine();
+            if(mr.findStation(asal)!=null) isCorrect = true;
+            else{
+                System.out.println("Stasiun tidak terdaftar");
+            }
+        }
+        isCorrect = false;
+        while(!isCorrect){
+            System.out.print("Masukkan stasiun tujuan: ");
+            tujuan=input.nextLine();
+            if(mr.findStation(tujuan)!=null) isCorrect = true;
+            else System.out.println("Stasiun tidak terdaftar");
+        }
+        isCorrect = false;
+        while(!isCorrect){
+            System.out.print("Masukkan jam keberangkatan: ");
+            jam=Integer.parseInt(input.nextLine());
+            if(jam<openTime||jam>=closeTime){
+                System.out.println("Stasiun tidak terdaftar");
+            } else isCorrect = true;
+        }
+        Main.clearScreen();
+        
+        daftarTicket = new DoubleList<Ticket>();
         for(int i=0;i<ms.schedule.length;i++){
             mr.train.curr = mr.train.head;
             Integer now=i+openTime;
             if(jam==now){
                 DoubleList<Train> foundTrain=new DoubleList<Train>();
                 for(int j=0;j<ms.schedule[i].length;j++){
-                    if(ms.schedule[i][j].namaStasiun.equals(asal)){
+                    if(ms.schedule[i][j].namaStasiun.toLowerCase().equals(asal.toLowerCase())){
                         boolean isDestFound=false;
                         for(int k=0;k<ms.schedule.length;k++){
-                            if(ms.schedule[k][j].namaStasiun.equals(tujuan)){
+                            if(ms.schedule[k][j].namaStasiun.toLowerCase().equals(tujuan.toLowerCase())){
                                 isDestFound=true;
                             }
                         }
-                        if(isDestFound){
-                            foundTrain.addTail(mr.train.curr.obj);
-                            System.out.println(ms.schedule[i][j].namaStasiun);
-                        }
+                        if(isDestFound) foundTrain.addTail(mr.train.curr.obj);
                     }
                     mr.train.curr=mr.train.curr.next;
                 }
@@ -61,46 +80,90 @@ public class SistemTicket {
                 break;
             }
         }
-        Integer nomor=0;
-        // sorting by tarif
-        while(daftarTicket.curr!=null){
-            nomor++;
-            System.out.println(nomor+") "+daftarTicket.curr.obj.jam+".00");
-            System.out.println(daftarTicket.curr.obj.rute.name);
-            System.out.println(daftarTicket.curr.obj.tarif);
-            daftarTicket.curr=daftarTicket.curr.next;
-        }
         
-        Scanner st = new Scanner(System.in);
-        System.out.println("1. Pilih Tiket");
-        System.out.println("2. Masukkan ulang");
-        System.out.println("3. Kembali");
-        System.out.print("Pilih: ");
-        int input=st.nextInt();
-
-        switch (input) {
-        case 1:
-            Scanner sy = new Scanner(System.in);
-            System.out.print("Masukkan Nama Rute:");
-            String namaRute=sy.nextLine();
-            daftarTicket.curr=daftarTicket.head;
+        sortByTarif();
+        Integer nomor=0;
+        if(daftarTicket.head!=null){
+            System.out.println("Daftar Tiket:");
+            // Integer nomor=0;
             while(daftarTicket.curr!=null){
-                if(namaRute.equals(daftarTicket.curr.obj.rute.name)){
-                    mr.penumpang.addTail(new Penumpang(namaPenumpang, asal, tujuan, daftarTicket.curr.obj));
-                    System.out.println("Penumpang berhasil ditambah!");
-                }
+                nomor++;
+                System.out.println(nomor+") "+daftarTicket.curr.obj.rute.name+": Rp. "+daftarTicket.curr.obj.tarif+".000");
                 daftarTicket.curr=daftarTicket.curr.next;
             }
-            break;
-        case 2:
-            this.beliTiket();
-            break;
-        case 3:
-            return;
-        default:
-            System.out.println("Masukkan input yang benar!");
-            this.beliTiket();
+            System.out.println();
+            System.out.println("1. Pilih Tiket");
+            System.out.println("2. Masukkan ulang");
+            System.out.println("3. Kembali");
+            System.out.print("Pilih: ");
+            Integer pilihan=Integer.parseInt(input.nextLine());
+            System.out.println();
+    
+            switch (pilihan) {
+            case 1:
+                System.out.print("Masukkan Nama Rute:");
+                String namaRute=input.nextLine();
+                daftarTicket.curr=daftarTicket.head;
+                while(daftarTicket.curr!=null){
+                    if(namaRute.equals(daftarTicket.curr.obj.rute.name)){
+                        mr.penumpang.addTail(new Penumpang(namaPenumpang, asal, tujuan, daftarTicket.curr.obj));
+                        System.out.println("Penumpang berhasil ditambah!");
+                        input.nextLine();
+                        Main.clearScreen();
+                    }
+                    daftarTicket.curr=daftarTicket.curr.next;
+                }
+                break;
+            case 2:
+                Main.clearScreen();
+                beliTiket();
+                break;
+            case 3:
+                return;
+            default:
+                System.out.println("Masukkan input yang benar!");
+                input.nextLine();
+                Main.clearScreen();
+                beliTiket();
+            }
+        }else{
+            System.out.println("Tiket tidak ada atau telah habis");
+            input.nextLine();
+            Main.clearScreen();
+            beliTiket();
         }
+    }
+
+    void sortByTarif(){ //quicksort
+        quicksort(daftarTicket.head, daftarTicket.tail);
+    }
+
+    int rekursif = 0;
+    void quicksort(Node<Ticket> head, Node<Ticket> tail){
+        // System.out.print("\nsorting ke-"+rekursif+": ");
+        if(head==null||tail==null||tail==head)return;
+        Node<Ticket> pivot = head, temp = tail;
+        Object pivotObj = pivot.obj;
+        // System.out.print(((Barang)pivot.obj).nama+" & "+((Barang)temp.obj).nama);
+        do{
+            if((pivot.obj).tarif>(temp.obj).tarif) swap(pivot, temp);
+            if(pivot.obj == pivotObj)temp=temp.prev;
+            else pivot=pivot.next;
+        } while(pivot!=temp);
+        Node<Ticket> kananHead = pivot.next;
+        Node<Ticket> kiriTail = pivot.prev;
+        if(kananHead != null) kananHead.prev = null;
+        if(kiriTail != null) kiriTail.next = null;
+        quicksort(head, kiriTail);
+        quicksort(kananHead, tail);
+        if(kananHead != null) kananHead.prev = pivot;
+        if(kiriTail != null) kiriTail.next = pivot;
+    }
+
+    void swap(Node<Ticket> node1,Node<Ticket> node2){
+        Node<Ticket> newNode = new Node<Ticket>(node1.obj);
+        node1.obj = node2.obj;
+        node2.obj= newNode.obj;
     }
 }
 
