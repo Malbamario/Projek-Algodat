@@ -3,11 +3,11 @@ import java.util.*;
 public class Main{
     static MetroResource resource = new MetroResource();
     static MetroSimulation simulation = new MetroSimulation(resource);
-    static SistemTicket ticketing = new SistemTicket(resource,simulation,6,22);
+    static SistemTicket ticketing = new SistemTicket(resource,simulation,6,23);
     static Scanner input = new Scanner(System.in);
     public static void main(String[] args){
         scenario();
-        simulation.preperation(6, 23);
+        simulation.preperation(ticketing.openTime, ticketing.closeTime);
         menu();
     }
 
