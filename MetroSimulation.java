@@ -33,32 +33,32 @@ public class MetroSimulation {
             tempTrain = resource.train.head;
             // System.out.print("[ ");
             for(int j=0;j<schedule[i].length;j++){
-                schedule[i][j] = tempTrain.obj.rute.temp;
+                schedule[i][j] = tempTrain.obj.curr;
                 // System.out.print(schedule[i][j].namaStasiun+" ");
-                tempTrain.obj.rute.move();
+                if(j<schedule[i].length-1){
+                    tempTrain.obj.curr = tempTrain.obj.rute.move(tempTrain.obj);
+                }
+                // System.out.println(tempTrain.obj.rute.temp.namaStasiun);
                 tempTrain = tempTrain.next;
             }
-            // System.out.print("]");
-            // tempTrain = resource.train.head;
-            // System.out.print("[ ");
-            
-            // for(int j=0;j<schedule[i].length;j++){
-            //     schedule[i][j] = tempTrain.obj.rute.temp;
-            //     System.out.print(schedule[i][j].tarif+" ");
-            //     tempTrain.obj.rute.move();
-            //     tempTrain = tempTrain.next;
-            // }
             // System.out.println("]");
         }
     }
 
     void start(){
         if(resource.penumpang.head!=null){
+            resource.train.curr = resource.train.head;
+            while(resource.train.curr!=null){
+                // System.out.println(resource.train.curr.obj.kode+" : "+resource.train.curr.obj.curr.namaStasiun+" : "+resource.train.curr.obj.start.namaStasiun);
+                resource.train.curr.obj.curr = resource.train.curr.obj.start;
+                resource.train.curr = resource.train.curr.next;
+            }
             for(Integer i=openTime;i<closeTime;i++){
-                resource.stasiun.curr=resource.stasiun.head;
-                while(resource.stasiun.curr!=null){
-                    resource.train.curr=resource.train.head;
-                    while(resource.train.curr!=null){
+                resource.train.curr=resource.train.head;
+                while(resource.train.curr!=null){
+                    resource.stasiun.curr=resource.stasiun.head;
+                    while(resource.stasiun.curr!=null){
+                    
                         // System.out.println(resource.stasiun.curr.obj.name);
                         // Node<Train> tempTrain = resource.train.head;
                         // while(tempTrain!=null){
@@ -68,14 +68,18 @@ public class MetroSimulation {
                         // }
                         // System.out.println();
                         Node<Train> tempTrain = resource.train.curr;
+                        // System.out.println(resource.train.curr.obj.kode+" : "+resource.train.curr.obj.curr.namaStasiun+" : "+resource.stasiun.curr.obj.name);
                         if(resource.train.curr.obj.curr.namaStasiun.equals(resource.stasiun.curr.obj.name)){
+                            // System.out.println(resource.stasiun.curr.obj.name);
                             resource.train.curr=resource.train.curr.next;
+                            // System.out.println(resource.stasiun.curr.obj.name);
                             Train deletedTrain=resource.train.delete(tempTrain.obj);
                             if(deletedTrain==null) System.out.println("Kereta tidak ditemukan!");
                             resource.stasiun.curr.obj.addKereta(deletedTrain);
-                        }else resource.train.curr=resource.train.curr.next;
+                            break;
+                        }else resource.stasiun.curr=resource.stasiun.curr.next;
                     }
-                    resource.stasiun.curr=resource.stasiun.curr.next;
+                    if(resource.stasiun.curr==null) System.out.println("Stasiun tidak ditemukan!");
                 }
                 resource.stasiun.curr=resource.stasiun.head;
 
@@ -98,7 +102,9 @@ public class MetroSimulation {
                     resource.penumpang.curr=resource.penumpang.head;
                     while(resource.penumpang.curr!=null){
                         Node<Penumpang> tempPenumpang = resource.penumpang.curr;
+                        // System.out.println(resource.penumpang.curr.obj.name+" : "+resource.penumpang.curr.obj.asal);
                         if(resource.penumpang.curr.obj.asal.equals(tempStation.name)&&tempPenumpang.obj.tiket.jam==i){
+                            // System.out.println(resource.penumpang.curr.obj.name+" : "+resource.penumpang.curr.obj.asal);
                             resource.penumpang.curr=resource.penumpang.curr.next;
                             Penumpang deletedPenumpang=resource.penumpang.delete(tempPenumpang.obj);
                             if(deletedPenumpang==null) System.out.println("Penumpang tidak ditemukan!");
@@ -143,12 +149,17 @@ public class MetroSimulation {
 
                     for(int j=0;j<tempStation.kereta.length;j++){
                         if(tempStation.kereta[j]!=null){
-                            tempStation.kereta[j].rute.temp = tempStation.kereta[j].curr;
-                            tempStation.kereta[j].rute.move(); 
-                            tempStation.kereta[j].curr = tempStation.kereta[j].rute.temp; 
+                            tempStation.kereta[j].curr = tempStation.kereta[j].rute.move(tempStation.kereta[j]); 
                             resource.train.addTail(tempStation.kereta[j]);
                             tempStation.kereta[j]=null;
                         }
+                    }
+
+                    resource.train.curr = resource.train.head;
+                    while(resource.train.curr!=null){
+                        // System.out.println(resource.train.curr.obj.kode+" : "+resource.train.curr.obj.curr.namaStasiun+" : "+resource.train.curr.obj.start.namaStasiun);
+                        // resource.train.curr.obj.curr = resource.train.curr.obj.start;
+                        resource.train.curr = resource.train.curr.next;
                     }
                     
                     if(resource.train.head!=null){

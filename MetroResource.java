@@ -36,14 +36,7 @@ public class MetroResource {
         else {
             newRoute.head.tarif = newRoute.head.next.tarif;
         }
-        
-        Node<Route> newNode = new Node<Route>(newRoute);
-        if(rute.head==null) rute.head = rute.curr = rute.tail = newNode;
-        else{
-            rute.tail.next = newNode;
-            newNode.prev = rute.tail;
-            rute.tail = rute.tail.next;
-        }
+        rute.addTail(newRoute);
     }
 
     Integer findRate(String departure, String destination){
@@ -84,13 +77,13 @@ public class MetroResource {
                     return false;
                 }
             }
-            kereta.curr = route.temp;
+            kereta.start = kereta.curr=route.temp;
             return true;
         }
         else{
             while(route.temp!=null){
                 if(route.temp.namaStasiun.equals(startStation)){
-                    kereta.curr = route.temp;
+                    kereta.start = kereta.curr=route.temp;
                     return true;
                 }
                 route.temp = route.temp.next;
@@ -145,6 +138,7 @@ public class MetroResource {
         rute.curr = rute.head;
         while(rute.curr!=null){
             System.out.println(rute.curr.obj.name+" => ");
+            rute.curr.obj.temp = rute.curr.obj.head;
             rute.curr = rute.curr.next;
         }
     }

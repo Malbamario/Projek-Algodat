@@ -55,6 +55,10 @@ public class Main{
                                    1,3,3,2};
         DoubleList<Integer> trainStart = new DoubleList<Integer>();
         trainStart.addTail(trainStartArr);
+
+        Boolean[] bNFReverseArr = {false, true, false, true};
+        DoubleList<Boolean> bNFReverse = new DoubleList<Boolean>();
+        bNFReverse.addTail(bNFReverseArr);
         
         while(station.curr!=null){
             resource.addStation(station.curr.obj, qty.curr.obj);
@@ -72,6 +76,7 @@ public class Main{
             resource.addRoute(routesName.curr.obj, routeStationArr[i], isCircular[i]);
             routesName.curr = routesName.curr.next;
         }
+        resource.printRoute();
 
         while(trainCode.curr!=null){
             // System.out.println(trainCode.curr.obj+" => "+routesNameArr[trainRoute.curr.obj]+" => "+stationArr[trainStart.curr.obj]);
@@ -85,6 +90,27 @@ public class Main{
             trainRoute.curr = trainRoute.curr.next;
             trainStart.curr = trainStart.curr.next;
         }
+
+        resource.train.curr = resource.train.head;
+        while(resource.train.curr!=null){
+            if(resource.train.curr.obj.rute.name.equals("Sabang-Merauke Line")||resource.train.curr.obj.rute.name.equals("Mangias-Rote Line")){
+                resource.train.curr.obj.isReversed = bNFReverse.curr.obj;
+                bNFReverse.curr = bNFReverse.curr.next;
+                if(bNFReverse.curr==null) bNFReverse.curr = bNFReverse.head;
+            }
+            // resource.printTrain();
+            resource.train.curr = resource.train.curr.next;
+        }
+        // System.out.println("Kereta: ");
+        // resource.train.curr = resource.train.head;
+        // while(resource.train.curr!=null){
+        //     if(resource.train.curr.obj.rute.name.equals("Sabang-Merauke Line")||resource.train.curr.obj.rute.name.equals("Mangias-Rote Line")){
+        //         System.out.println(resource.train.curr.obj.kode+" : "+((BackNForthRoute)resource.train.curr.obj.rute).isReversed);
+        //     }
+        //     // System.out.println(resource.train.curr.obj.kode+" => "+resource.train.curr.obj.rute.name+" => "+resource.train.curr.obj.curr.namaStasiun);
+        //     resource.train.curr = resource.train.curr.next;
+        // }
+
 
         // resource.printStation();
         // resource.printRoute();

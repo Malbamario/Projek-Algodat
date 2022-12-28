@@ -5,5 +5,5 @@ public abstract class Route {
         return name;
     }
     public abstract void addStation(String stationName, Integer rates);
-    public abstract void move();
+    public abstract NodeRoute move(Train t);
 }
