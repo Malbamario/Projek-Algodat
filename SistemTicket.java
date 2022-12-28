@@ -67,7 +67,6 @@ public class SistemTicket {
                     do{
                         tarif+=foundTrain.curr.obj.rute.temp.tarif;
                         foundTrain.curr.obj.rute.move();
-    
                     }
                     while(foundTrain.curr.obj.rute.temp!=foundTrain.curr.obj.rute.head);
                     daftarTicket.addTail(new Ticket(now, tarif, foundTrain.curr.obj.rute, asal, tujuan));
@@ -98,13 +97,12 @@ public class SistemTicket {
             switch (pilihan) {
             case 1:
                 while(true){
-                    Integer jumlahTiket = 0;
-                    
+                    isCorrect=true;
                     System.out.print("Masukkan nomor rute: ");
                     Integer nomorTiket=Integer.parseInt(input.nextLine());
                     Integer i = 0;
                     daftarTicket.curr=daftarTicket.head;
-                    while(daftarTicket.curr!=null){
+                    while(isCorrect){
                         i++;
                         if(i==nomorTiket){
                             mr.penumpang.addTail(new Penumpang(namaPenumpang, asal, tujuan, daftarTicket.curr.obj));
@@ -112,11 +110,12 @@ public class SistemTicket {
                             input.nextLine();
                             Main.clearScreen();
                             break;
-                        }
-                        daftarTicket.curr=daftarTicket.curr.next;
+                        }else if(nomorTiket<1||nomorTiket>nomor||daftarTicket.curr==null||i>nomor){
+                            System.out.println("Rute yang dipilih tidak terdaftar");
+                            isCorrect=false;
+                        }else daftarTicket.curr=daftarTicket.curr.next;             
                     }
-                    if(daftarTicket.curr==null) System.out.println("Rute yang dipilih tidak terdaftar");
-                    else break;
+                    if(daftarTicket.curr!=null&&isCorrect) break;
                 }
                 break;
             case 2:

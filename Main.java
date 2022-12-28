@@ -12,7 +12,7 @@ public class Main{
     }
 
     public static void scenario(){
-        String[] stationArr = {"A", "B", "C", "D", "E"};
+        String[] stationArr = {"Barcelona", "Manchester United", "Arsenal", "Bayern Munchen", "Real Madrid"};
         DoubleList<String> station = new DoubleList<String>();
         station.addTail(stationArr);
         
@@ -21,11 +21,11 @@ public class Main{
         qty.addTail(qtyArr);
 
         Integer[][] ratesArr = {
-            {0, 7, 5, 5, 0},
-            {7, 0, 0, 4, 6},
-            {5, 0, 0, 6, 6},
-            {5, 4, 6, 0, 5},
-            {0, 6, 6, 5, 0}
+            { 0, 10,  8,  9,  0},
+            {10,  0,  0,  7, 10},
+            { 8,  0,  0, 15, 12},
+            { 9,  7, 15,  0, 13},
+            { 0, 10, 12, 13,  0}
         };
 
         String[] routesNameArr = {"Palapa-Red Line", "Palapa-White Line", "Sabang-Merauke Line", "Mangias-Rote Line"};
@@ -40,13 +40,19 @@ public class Main{
             {stationArr[1], stationArr[3], stationArr[2]},
         };
 
-        String[] trainCodeArr = {"PR-01", "PW-03", "SM-00", "MR-41"};
+        String[] trainCodeArr = {"PR-301","PR-302","PR-303","PR-304","PW-401","PW-402","PW-403","PW-404","SM-701","SM-702","SM-703","SM-704","MR-901","MR-902","MR-903","MR-904"};
         DoubleList<String> trainCode = new DoubleList<String>();
         trainCode.addTail(trainCodeArr);
-        Integer[] trainRouteArr = {0, 1, 2, 3};
+        Integer[] trainRouteArr = {0,0,0,0,
+                                   1,1,1,1,
+                                   2,2,2,2,
+                                   3,3,3,3};
         DoubleList<Integer> trainRoute = new DoubleList<Integer>();
         trainRoute.addTail(trainRouteArr);
-        Integer[] trainStartArr = {0, 2, 0, 3};
+        Integer[] trainStartArr = {0,1,4,2,
+                                   2,4,1,0,
+                                   0,3,3,4,
+                                   1,3,3,2};
         DoubleList<Integer> trainStart = new DoubleList<Integer>();
         trainStart.addTail(trainStartArr);
         
