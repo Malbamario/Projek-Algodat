@@ -46,16 +46,6 @@ public class MetroResource {
         }
     }
 
-    boolean validateStation(String stationName){
-        Node<Station> temp = stasiun.head;
-        while(temp!=null){
-            if(stationName.equals(temp.obj.getName())) return true;
-            temp = temp.next;
-        }
-        System.out.println("Stasiun "+stationName+" tidak ada");
-        return false;
-    }
-
     Integer findRate(String departure, String destination){
         rates.curr = rates.head;
         stasiun.curr = stasiun.head;
@@ -119,17 +109,27 @@ public class MetroResource {
     Route findRoute(String routeName){
         Node<Route> temp = rute.head;
         while(temp!=null){
-            if(routeName.equals(temp.obj.getName())) return temp.obj;
+            String tempName = temp.obj.getName().toLowerCase();
+            routeName = routeName.toLowerCase();
+            if(routeName.equals(tempName)) return temp.obj;
             temp = temp.next;
         }
         System.out.println("Rute "+routeName+" tidak ditemukan");
         return null;
     }
 
+    boolean validateStation(String stationName){
+        if(findStation(stationName)!=null) return true;
+        System.out.println("Stasiun "+stationName+" tidak ada");
+        return false;
+    }
+
     Station findStation(String sName){
         Node<Station> temp = stasiun.head;
         while(temp != null){
-            if(((Station)temp.obj).getName().equals(sName)) return (Station) temp.obj;
+            String tempName = temp.obj.getName().toLowerCase();
+            sName = sName.toLowerCase();
+            if(tempName.equals(sName)) return temp.obj;
             temp = temp.next;
         }
         System.out.println("Stasiun tidak ditemukan");
@@ -137,12 +137,14 @@ public class MetroResource {
     }
     
     void printStation(){
-        System.out.println("Stasiun: ");
+        System.out.print("Stasiun: ");
         stasiun.curr = stasiun.head;
         while(stasiun.curr!=null){
-            System.out.println(stasiun.curr.obj.name+" => ");
+            System.out.print(stasiun.curr.obj.name);
+            if(stasiun.curr.next!=null) System.out.print(", ");
             stasiun.curr = stasiun.curr.next;
         }
+        System.out.println("\n");
     }
 
     void printRoute(){
