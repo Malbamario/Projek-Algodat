@@ -25,24 +25,20 @@ public class SistemTicket {
         while(!isCorrect){
             System.out.print("Masukkan stasiun asal: ");
             asal=input.nextLine();
-            if(mr.findStation(asal)!=null) isCorrect = true;
-            else{
-                System.out.println("Stasiun tidak terdaftar");
-            }
+            isCorrect = mr.validateStation(asal);
         }
         isCorrect = false;
         while(!isCorrect){
             System.out.print("Masukkan stasiun tujuan: ");
             tujuan=input.nextLine();
-            if(mr.findStation(tujuan)!=null) isCorrect = true;
-            else System.out.println("Stasiun tidak terdaftar");
+            isCorrect = mr.validateStation(tujuan);
         }
         isCorrect = false;
         while(!isCorrect){
             System.out.print("Masukkan jam keberangkatan: ");
             jam=Integer.parseInt(input.nextLine());
             if(jam<openTime||jam>=closeTime){
-                System.out.println("Stasiun tidak terdaftar");
+                System.out.println("Jam keberangkatan di luar jam operasional");
             } else isCorrect = true;
         }
         Main.clearScreen();
@@ -92,7 +88,7 @@ public class SistemTicket {
                 daftarTicket.curr=daftarTicket.curr.next;
             }
             System.out.println();
-            System.out.println("1. Pilih Tiket");
+            System.out.println("1. Pilih Rute");
             System.out.println("2. Masukkan ulang");
             System.out.println("3. Kembali");
             System.out.print("Pilih: ");
@@ -101,17 +97,26 @@ public class SistemTicket {
     
             switch (pilihan) {
             case 1:
-                System.out.print("Masukkan Nama Rute:");
-                String namaRute=input.nextLine();
-                daftarTicket.curr=daftarTicket.head;
-                while(daftarTicket.curr!=null){
-                    if(namaRute.equals(daftarTicket.curr.obj.rute.name)){
-                        mr.penumpang.addTail(new Penumpang(namaPenumpang, asal, tujuan, daftarTicket.curr.obj));
-                        System.out.println("Penumpang berhasil ditambah!");
-                        input.nextLine();
-                        Main.clearScreen();
+                while(true){
+                    Integer jumlahTiket = 0;
+                    
+                    System.out.print("Masukkan nomor rute: ");
+                    Integer nomorTiket=Integer.parseInt(input.nextLine());
+                    Integer i = 0;
+                    daftarTicket.curr=daftarTicket.head;
+                    while(daftarTicket.curr!=null){
+                        i++;
+                        if(i==nomorTiket){
+                            mr.penumpang.addTail(new Penumpang(namaPenumpang, asal, tujuan, daftarTicket.curr.obj));
+                            System.out.println("Penumpang berhasil ditambah!");
+                            input.nextLine();
+                            Main.clearScreen();
+                            break;
+                        }
+                        daftarTicket.curr=daftarTicket.curr.next;
                     }
-                    daftarTicket.curr=daftarTicket.curr.next;
+                    if(daftarTicket.curr==null) System.out.println("Rute yang dipilih tidak terdaftar");
+                    else break;
                 }
                 break;
             case 2:

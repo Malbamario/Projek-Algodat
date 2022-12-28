@@ -46,16 +46,6 @@ public class MetroResource {
         }
     }
 
-    boolean validateStation(String stationName){
-        Node<Station> temp = stasiun.head;
-        while(temp!=null){
-            if(stationName.equals(temp.obj.getName())) return true;
-            temp = temp.next;
-        }
-        System.out.println("Stasiun "+stationName+" tidak ada");
-        return false;
-    }
-
     Integer findRate(String departure, String destination){
         rates.curr = rates.head;
         stasiun.curr = stasiun.head;
@@ -126,6 +116,12 @@ public class MetroResource {
         }
         System.out.println("Rute "+routeName+" tidak ditemukan");
         return null;
+    }
+
+    boolean validateStation(String stationName){
+        if(findStation(stationName)!=null) return true;
+        System.out.println("Stasiun "+stationName+" tidak ada");
+        return false;
     }
 
     Station findStation(String sName){
