@@ -98,7 +98,7 @@ public class SistemTicket {
                 while(isCorrect){
                     i++;
                     if(i==nomorTiket){
-                        mr.penumpang.addTail(new Penumpang(namaPenumpang, asal, tujuan, daftarTicket.curr.obj));
+                        mr.penumpang.addTail(new Penumpang(namaPenumpang, mr.findStation(asal).name, mr.findStation(tujuan).name, daftarTicket.curr.obj));
                         System.out.println("Penumpang berhasil ditambah!");
                         input.nextLine();
                         Main.clearScreen();
