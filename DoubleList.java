@@ -19,7 +19,7 @@ public class DoubleList<T>{
             newNode.prev = tail;
             //script ini adalah mebginisialisasikan newNode sebelumnya adalah node tail
             tail = tail.next;
-            //script ini menginisialisasikan node tail adalah tail selanjutnya
+            //script ini menginisialisasikan node tail adalah tail selanjutnyah
         }
     }
 

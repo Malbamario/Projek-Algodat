@@ -6,6 +6,9 @@ public class Main{
     static SistemTicket ticketing = new SistemTicket(resource,simulation,6,23);
     static Scanner input = new Scanner(System.in);
     public static void main(String[] args){
+        System.out.println("╔═══════════════════════════════════════╗");
+        System.out.println("║ Selamat Datang di Simulasi FIFA Metro ║");
+        System.out.println("╚═══════════════════════════════════════╝");
         scenario();
         simulation.preperation(ticketing.openTime, ticketing.closeTime);
         menu();
@@ -76,7 +79,7 @@ public class Main{
             resource.addRoute(routesName.curr.obj, routeStationArr[i], isCircular[i]);
             routesName.curr = routesName.curr.next;
         }
-        resource.printRoute();
+        // resource.printRoute();
 
         while(trainCode.curr!=null){
             // System.out.println(trainCode.curr.obj+" => "+routesNameArr[trainRoute.curr.obj]+" => "+stationArr[trainStart.curr.obj]);
@@ -118,26 +121,29 @@ public class Main{
 
     public static void menu(){
         boolean finish=false;
-        System.out.println("Menu");
+        System.out.println("Menu Utama");
         System.out.println("1. Beli Tiket");
         System.out.println("2. Simulasi");
         System.out.println("3. Keluar");
         System.out.print("Pilih Menu: ");
         Integer pilihan=Integer.parseInt(input.nextLine());
         System.out.println();
-        Main.clearScreen();
         
         switch (pilihan) {
         case 1:
+            Main.clearScreen();
             ticketing.beliTiket();
             break;
         case 2:
+            Main.clearScreen();
             simulation.start();
             break;
         case 3:
+            System.out.println("Sampai Jumpa...");
             finish=true;
             break;
         default:
+            Main.clearScreen();
             System.out.println("Masukkan input yang benar!");
             menu();
         }
